@@ -335,7 +335,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			departmentCombo.setSelectedIndex(countDep);
 			salaryField.setText(format.format(thisEmployee.getSalary()));
 			// set corresponding full time combo box value to current employee
-			if (thisEmployee.getFullTime() == true)
+			if (thisEmployee.getFullTime())
 				fullTimeCombo.setSelectedIndex(1);
 			else
 				fullTimeCombo.setSelectedIndex(2);
@@ -658,17 +658,13 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		boolean ppsExist;
 
 		// check for correct PPS format based on assignment description
-		if (pps.length() == 8 || pps.length() == 9) {
-			if (pps.substring(0,7).matches("[0-9]+") && (pps.substring(pps.length() - 2).matches("[a-zA-Z]+") && pps.length() == 9) ||
-					(pps.substring(pps.length() - 1).matches("[a-zA-Z]+") && pps.length() == 8)) {
-				// open file for reading
-				application.openReadFile(file.getAbsolutePath());
-				// look in file is PPS already in use
-				ppsExist = application.isPpsExist(pps, currentByte);
-				application.closeReadFile();// close file for reading
-			} // end if
-			else
-				ppsExist = true;
+		if (pps.substring(0,7).matches("[0-9]+") && (pps.substring(pps.length() - 2).matches("[a-zA-Z]+") && pps.length() == 9) ||
+				(pps.substring(pps.length() - 1).matches("[a-zA-Z]+") && pps.length() == 8)) {
+			// open file for reading
+			application.openReadFile(file.getAbsolutePath());
+			// look in file is PPS already in use
+			ppsExist = application.isPpsExist(pps, currentByte);
+			application.closeReadFile();// close file for reading
 		} // end if
 		else
 			ppsExist = true;
