@@ -299,30 +299,34 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 	public void displayRecords(Employee thisEmployee) {
 		int countGender = 0;
 		int countDep = 0;
-		boolean found = false;
 
 		searchByIdField.setText("");
 		searchBySurnameField.setText("");
 		// if Employee is null or ID is 0 do nothing else display Employee
 		// details
-		if (thisEmployee == null) {
-		} else if (thisEmployee.getEmployeeId() == 0) {
-		} else {
+		if (thisEmployee != null && thisEmployee.getEmployeeId() != 0) {
 			// find corresponding gender combo box value to current employee
-			while (!found && countGender < gender.length - 1) {
-				if (Character.toString(thisEmployee.getGender()).equalsIgnoreCase(gender[countGender]))
-					found = true;
-				else
-					countGender++;
-			} // end while
-			found = false;
+			switch (Character.toString(thisEmployee.getGender())) {
+				case "M":
+					countGender = 1;
+					break;
+				case "F":
+					countGender = 2;
+					break;
+				default:
+					break;
+			}
+
 			// find corresponding department combo box value to current employee
-			while (!found && countDep < department.length - 1) {
-				if (thisEmployee.getDepartment().trim().equalsIgnoreCase(department[countDep]))
-					found = true;
-				else
-					countDep++;
-			} // end while
+			if(thisEmployee.getDepartment().trim().equalsIgnoreCase(department[1]))
+				countDep = 1;
+			else if(thisEmployee.getDepartment().trim().equalsIgnoreCase(department[2]))
+				countDep = 2;
+			else if(thisEmployee.getDepartment().trim().equalsIgnoreCase(department[3]))
+				countDep = 3;
+			else if(thisEmployee.getDepartment().trim().equalsIgnoreCase(department[4]))
+				countDep = 4;
+
 			idField.setText(Integer.toString(thisEmployee.getEmployeeId()));
 			ppsField.setText(thisEmployee.getPps().trim());
 			surnameField.setText(thisEmployee.getSurname().trim());
@@ -627,7 +631,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// check if any of records in file is active - ID is not 0
 	private boolean isSomeoneToDisplay() {
-		boolean someoneToDisplay = false;
+		boolean someoneToDisplay;
 		// open file for reading
 		application.openReadFile(file.getAbsolutePath());
 		// check if any of records in file is active - ID is not 0
@@ -651,14 +655,12 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// check for correct PPS format and look if PPS already in use
 	public boolean correctPps(String pps, long currentByte) {
-		boolean ppsExist = false;
+		boolean ppsExist;
+
 		// check for correct PPS format based on assignment description
 		if (pps.length() == 8 || pps.length() == 9) {
-			if (Character.isDigit(pps.charAt(0)) && Character.isDigit(pps.charAt(1))
-					&& Character.isDigit(pps.charAt(2))	&& Character.isDigit(pps.charAt(3)) 
-					&& Character.isDigit(pps.charAt(4))	&& Character.isDigit(pps.charAt(5)) 
-					&& Character.isDigit(pps.charAt(6))	&& Character.isLetter(pps.charAt(7))
-					&& (pps.length() == 8 || Character.isLetter(pps.charAt(8)))) {
+			if (pps.substring(0,7).matches("[0-9]+") && (pps.substring(pps.length() - 2).matches("[a-zA-Z]+") && pps.length() == 9) ||
+					(pps.substring(pps.length() - 1).matches("[a-zA-Z]+") && pps.length() == 8)) {
 				// open file for reading
 				application.openReadFile(file.getAbsolutePath());
 				// look in file is PPS already in use
