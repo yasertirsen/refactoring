@@ -67,17 +67,14 @@ public class RandomFile {
 
 	// Add records to file
 	public long addRecords(Employee employeeToAdd) {
-		Employee newEmployee = employeeToAdd;
 		long currentRecordStart = 0;
-
-		// object to be written to file
-		RandomAccessEmployeeRecord record;
 
 		try // output values to file
 		{
-			record = new RandomAccessEmployeeRecord(newEmployee.getEmployeeId(), newEmployee.getPps(),
-					newEmployee.getSurname(), newEmployee.getFirstName(), newEmployee.getGender(),
-					newEmployee.getDepartment(), newEmployee.getSalary(), newEmployee.getFullTime());
+			// object to be written to file
+			RandomAccessEmployeeRecord record = new RandomAccessEmployeeRecord(employeeToAdd.getEmployeeId(), employeeToAdd.getPps(),
+					employeeToAdd.getSurname(), employeeToAdd.getFirstName(), employeeToAdd.getGender(),
+					employeeToAdd.getDepartment(), employeeToAdd.getSalary(), employeeToAdd.getFullTime());
 
 			output.seek(output.length());// Look for proper position
 			record.write(output);// Write object to file
@@ -97,11 +94,10 @@ public class RandomFile {
 
 	// Change details for existing object
 	public void changeRecords(Employee newDetails, long byteToStart) {
-		// object to be written to file
-		RandomAccessEmployeeRecord record;
 		try // output values to file
 		{
-			record = new RandomAccessEmployeeRecord(newDetails.getEmployeeId(), newDetails.getPps(),
+			// object to be written to file
+			RandomAccessEmployeeRecord record = new RandomAccessEmployeeRecord(newDetails.getEmployeeId(), newDetails.getPps(),
 					newDetails.getSurname(), newDetails.getFirstName(), newDetails.getGender(),
 					newDetails.getDepartment(), newDetails.getSalary(), newDetails.getFullTime());
 
@@ -116,13 +112,10 @@ public class RandomFile {
 	// Delete existing object
 	public void deleteRecords(long byteToStart) {
 
-		// object to be written to file
-		RandomAccessEmployeeRecord record;
-		;
-
 		try // output values to file
 		{
-			record = new RandomAccessEmployeeRecord();// Create empty object
+			// object to be written to file
+			RandomAccessEmployeeRecord record = new RandomAccessEmployeeRecord();// Create empty object
 			output.seek(byteToStart);// Look for proper position
 			record.write(output);// Replace existing object with empty object
 		} // end try

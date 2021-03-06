@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 
@@ -56,9 +57,9 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 	private static final DecimalFormat fieldFormat = new DecimalFormat("0.00");
 	// hold object start position in file
 	private long currentByteStart = 0;
-	private RandomFile application = new RandomFile();
+	private final RandomFile application = new RandomFile();
 	// display files in File Chooser only with extension .dat
-	private FileNameExtensionFilter datfilter = new FileNameExtensionFilter("dat files (*.dat)", "dat");
+	private final FileNameExtensionFilter datfilter = new FileNameExtensionFilter("dat files (*.dat)", "dat");
 	// hold file name and path for current file in use
 	private File file;
 	// holds true or false if any changes are made for text fields
@@ -71,7 +72,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			saveChange, cancelChange;
 	private JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
 	private JTextField idField, ppsField, surnameField, firstNameField, salaryField;
-	private static EmployeeDetails frame = new EmployeeDetails();
+	private static final EmployeeDetails frame = new EmployeeDetails();
 	// font for labels, text fields and combo boxes
 	Font font1 = new Font("SansSerif", Font.BOLD, 16);
 	// holds automatically generated file name
@@ -538,10 +539,8 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// get values from text fields and create Employee object
 	private Employee getChangedDetails() {
-		boolean fullTime = false;
+		boolean fullTime = Objects.requireNonNull(fullTimeCombo.getSelectedItem()).toString().equalsIgnoreCase("Yes");
 		Employee theEmployee;
-		if (((String) fullTimeCombo.getSelectedItem()).equalsIgnoreCase("Yes"))
-			fullTime = true;
 
 		theEmployee = new Employee(Integer.parseInt(idField.getText()), ppsField.getText().toUpperCase(),
 				surnameField.getText().toUpperCase(), firstNameField.getText().toUpperCase(),
@@ -595,14 +594,14 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		// loop until all Employees are added to vector
 		do {
 			empDetails = new Vector<Object>();
-			empDetails.addElement(new Integer(currentEmployee.getEmployeeId()));
+			empDetails.addElement(currentEmployee.getEmployeeId());
 			empDetails.addElement(currentEmployee.getPps());
 			empDetails.addElement(currentEmployee.getSurname());
 			empDetails.addElement(currentEmployee.getFirstName());
-			empDetails.addElement(new Character(currentEmployee.getGender()));
+			empDetails.addElement(currentEmployee.getGender());
 			empDetails.addElement(currentEmployee.getDepartment());
-			empDetails.addElement(new Double(currentEmployee.getSalary()));
-			empDetails.addElement(new Boolean(currentEmployee.getFullTime()));
+			empDetails.addElement(currentEmployee.getSalary());
+			empDetails.addElement(currentEmployee.getFullTime());
 
 			allEmployee.addElement(empDetails);
 			nextRecord();// look for next record
@@ -655,7 +654,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// check for correct PPS format and look if PPS already in use
 	public boolean correctPps(String pps, long currentByte) {
-		boolean ppsExist;
+		boolean ppsExist = true;
 
 		// check for correct PPS format based on assignment description
 		if (pps.substring(0,7).matches("[0-9]+") && (pps.substring(pps.length() - 2).matches("[a-zA-Z]+") && pps.length() == 9) ||
@@ -666,8 +665,6 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			ppsExist = application.isPpsExist(pps, currentByte);
 			application.closeReadFile();// close file for reading
 		} // end if
-		else
-			ppsExist = true;
 
 		return ppsExist;
 	}// end correctPPS
@@ -966,8 +963,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			int index = (int) (rnd.nextFloat() * fileNameChars.length());
 			fileName.append(fileNameChars.charAt(index));
 		}
-		String generatedfileName = fileName.toString();
-		return generatedfileName;
+		return fileName.toString();
 	}// end getFileName
 
 	// create file with generated file name when application is opened
@@ -1007,8 +1003,9 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		else if (e.getSource() == searchSurname || e.getSource() == searchBySurnameField)
 			searchEmployeeBySurname();
 		else if (e.getSource() == saveChange) {
-			if (checkInput() && !checkForChanges())
-				;
+			if (checkInput()) {
+				checkForChanges();
+			}
 		} else if (e.getSource() == cancelChange)
 			cancelChange();
 		else if (e.getSource() == firstItem || e.getSource() == first) {
@@ -1082,7 +1079,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 	}// end createAndShowGUI
 
 	// main method
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
