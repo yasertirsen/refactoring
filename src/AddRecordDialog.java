@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -107,11 +108,8 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 
 	// add record to file
 	public void addRecord() {
-		boolean fullTime = false;
+		boolean fullTime = Objects.requireNonNull(fullTimeCombo.getSelectedItem()).toString().equalsIgnoreCase("Yes");;
 		Employee theEmployee;
-
-		if (((String) fullTimeCombo.getSelectedItem()).equalsIgnoreCase("Yes"))
-			fullTime = true;
 		// create new Employee record with details from text fields
 		theEmployee = new Employee(Integer.parseInt(idField.getText()), ppsField.getText().toUpperCase(), surnameField.getText().toUpperCase(),
 				firstNameField.getText().toUpperCase(), genderCombo.getSelectedItem().toString().charAt(0),

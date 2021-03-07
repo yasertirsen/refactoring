@@ -249,13 +249,13 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		empDetails.add(genderCombo = new JComboBox<String>(gender), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Department:"), "growx, pushx");
-		empDetails.add(departmentCombo = new JComboBox<String>(department), "growx, pushx, wrap");
+		empDetails.add(departmentCombo = new JComboBox<>(department), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Salary:"), "growx, pushx");
 		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
-		empDetails.add(fullTimeCombo = new JComboBox<String>(fullTime), "growx, pushx, wrap");
+		empDetails.add(fullTimeCombo = new JComboBox<>(fullTime), "growx, pushx, wrap");
 
 		buttonPanel.add(saveChange = new JButton("Save"));
 		saveChange.addActionListener(this);
@@ -770,10 +770,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 	// enable text fields for editing
 	public void setEnabled(boolean booleanValue) {
 		boolean search;
-		if (booleanValue)
-			search = false;
-		else
-			search = true;
+		search = !booleanValue;
 		ppsField.setEditable(booleanValue);
 		surnameField.setEditable(booleanValue);
 		firstNameField.setEditable(booleanValue);
@@ -910,6 +907,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 				file = newFile;// assign new file to file
 			} // end try
 			catch (IOException e) {
+				e.printStackTrace();
 			} // end catch
 		} // end if
 		changesMade = false;

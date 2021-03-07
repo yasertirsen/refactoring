@@ -156,6 +156,7 @@ public class RandomFile {
 			input.length();
 		} // end try
 		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error getting first employee");
 		}// end catch
 		
 		return byteToStart;
@@ -169,6 +170,7 @@ public class RandomFile {
 			byteToStart = input.length() - RandomAccessEmployeeRecord.SIZE;
 		}// end try 
 		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error getting last employee");
 		}// end catch
 
 		return byteToStart;
@@ -187,6 +189,7 @@ public class RandomFile {
 				byteToStart = byteToStart + RandomAccessEmployeeRecord.SIZE;
 		} // end try
 		catch (NumberFormatException | IOException e) {
+			JOptionPane.showMessageDialog(null, "Error getting next employee");
 		} // end catch
 		// end catch
 		return byteToStart;
@@ -205,6 +208,7 @@ public class RandomFile {
 				byteToStart = byteToStart - RandomAccessEmployeeRecord.SIZE;
 		} // end try
 		catch (NumberFormatException | IOException e) {
+			JOptionPane.showMessageDialog(null, "Error getting previous employee");
 		} // end catch
 		// end catch
 		return byteToStart;
@@ -250,6 +254,7 @@ public class RandomFile {
 			}// end while
 		} // end try
 		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error while checking PPS");
 		}// end catch
 
 		return ppsExist;
@@ -273,6 +278,7 @@ public class RandomFile {
 			}// end while
 		}// end try
 		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error while finding employee");
 		}// end catch
 
 		return someoneToDisplay;

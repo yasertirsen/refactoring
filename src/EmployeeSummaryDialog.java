@@ -56,17 +56,17 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		// column left alignment 
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
-		Vector<String> header = new Vector<String>();
+		Vector<String> header = new Vector<>();
 		// header names
-		String[] headerName = { "ID", "PPS Number", "Surname", "First Name", "Gender", "Department", "Salary",
+		String[] headerNames = { "ID", "PPS Number", "Surname", "First Name", "Gender", "Department", "Salary",
 				"Full Time" };
 		// column widths
 		int[] colWidth = { 15, 100, 120, 120, 50, 120, 80, 80 };
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
 		// add headers
-		for (int i = 0; i < headerName.length; i++) {
-			header.addElement(headerName[i]);
+		for (String headerName : headerNames) {
+			header.addElement(headerName);
 		}// end for
 		// construnct table and choose table model for each column
 		tableModel = new DefaultTableModel(this.allEmployees, header) {
@@ -89,7 +89,7 @@ public class EmployeeSummaryDialog extends JDialog implements ActionListener {
 		employeeTable = new JTable(tableModel);
 		// add header names to table
 		for (int i = 0; i < employeeTable.getColumnCount(); i++) {
-			employeeTable.getColumn(headerName[i]).setMinWidth(colWidth[i]);
+			employeeTable.getColumn(headerNames[i]).setMinWidth(colWidth[i]);
 		}// end for
 		// set alignments
 		employeeTable.getColumnModel().getColumn(0).setCellRenderer(leftRenderer);
